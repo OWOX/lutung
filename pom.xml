@@ -151,6 +151,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- JacksonMapper -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
         <!-- Apache Http Client -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

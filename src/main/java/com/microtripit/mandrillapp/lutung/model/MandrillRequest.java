@@ -9,6 +9,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.PropertyNamingStrategy;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,8 +46,10 @@ public final class MandrillRequest<OUT> implements RequestModel<OUT> {
 	}
 
 	public final HttpRequestBase getRequest() throws IOException {
-		final String paramsStr = LutungGsonUtils.getGson().toJson(
-				requestParams, requestParams.getClass());
+		final String paramsStr = new ObjectMapper()
+				.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL)
+				.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES)
+				.writeValueAsString(requestParams);
         log.debug("raw content for request:\n" +paramsStr);
 		final StringEntity entity = new StringEntity(paramsStr, "UTF-8");
 		entity.setContentType("application/json");

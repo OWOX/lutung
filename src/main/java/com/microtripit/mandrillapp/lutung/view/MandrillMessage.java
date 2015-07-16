@@ -3,6 +3,10 @@
  */
 package com.microtripit.mandrillapp.lutung.view;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonValue;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -601,8 +605,18 @@ public class MandrillMessage {
 		 * @return The type of the recipient.
 		 * @see {@link Type}
 		 */
+		@JsonIgnore
 		public Type getType() {
 			return type;
+		}
+
+		/**
+		 * @return The type of the recipient.
+		 * @see {@link Type}
+		 */
+		@JsonProperty("type")
+		public String getTypeForJson() {
+			return type.toString().toLowerCase();
 		}
 
 		/**
