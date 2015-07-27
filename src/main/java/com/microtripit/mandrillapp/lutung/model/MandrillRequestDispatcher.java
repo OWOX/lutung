@@ -107,24 +107,7 @@ public final class MandrillRequestDispatcher {
 	}
 
     private static final ProxyData detectProxyServer(final String url) {
-        try {
-            final List<Proxy> proxies = ProxySelector.getDefault().select(new URI(url));
-            if(proxies != null) {
-                for(Proxy proxy : proxies) {
-                    InetSocketAddress addr = (InetSocketAddress) proxy.address();
-                    if(addr != null) {
-                        return new ProxyData(addr.getHostName(), addr.getPort());
-                    }
-                }
-            }
-            // no proxy detected!
-            return null;
-
-        } catch (final Throwable t) {
-            log.error("Error detecting proxy server", t);
-            return null;
-
-        }
+	return null;
     }
 
     private static final class ProxyData {
