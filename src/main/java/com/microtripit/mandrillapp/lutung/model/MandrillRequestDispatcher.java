@@ -85,20 +85,17 @@ public final class MandrillRequestDispatcher {
 			} else {
 				// ==> compile mandrill error!
 				final String e = IOUtils.toString(responseInputStream);
-
+				MandrillError error;
 				try {
-					final MandrillError error = LutungGsonUtils.getGson()
+					error = LutungGsonUtils.getGson()
 							.fromJson(e, MandrillError.class);
-					throw new MandrillApiError(
-							"Unexpected http status in response: "
-									+status.getStatusCode()+ " ("
-									+status.getReasonPhrase()+ ")").withError(error);
 				} catch (JsonSyntaxException ex) {
-					throw new MandrillApiError(
-							"Unexpected http status in response: "
-									+status.getStatusCode()+ " ("
-									+status.getReasonPhrase()+ "): " + e);
+					error = new MandrillError(status.getReasonPhrase(), null, e, status.getStatusCode());
 				}
+				throw new MandrillApiError(
+						"Unexpected http status in response: "
+								+status.getStatusCode()+ " ("
+								+status.getReasonPhrase()+ ")").withError(error);
 			}
 
 		} finally {
